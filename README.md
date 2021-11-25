@@ -3,7 +3,6 @@
 # Usage
 
 ~~~~
-python3 hashlookup-json-importer.py --help
 usage: hashlookup-json-importer.py [-h] [-v] [-s SOURCE] [-p PARENT] [--parent-meta PARENT_META [PARENT_META ...]] [-u] [-e]
 
 Generic NDJSON importer for hashlookup server
@@ -17,7 +16,7 @@ optional arguments:
                         Parent SHA-1 of the import
   --parent-meta PARENT_META [PARENT_META ...]
                         Add metadata to parent, format is key,value
-  -u, --update          Update hash if it already exists. default is not to update existing hashlookup record but to delete existing records and update.
+  -u, --update          Update hash if it already exists. default is to update existing hashlookup record without deleting existing.
   -e, --skip-exists     Skip import of existing hashlookup record
 ~~~~
 
