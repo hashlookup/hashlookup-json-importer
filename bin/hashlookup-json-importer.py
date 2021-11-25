@@ -56,6 +56,8 @@ for line in sys.stdin:
     for key in record.keys():
         if key.lower() in hashes:
             k = key.upper()
+            if record[key] == "":
+                continue
             h.add_hash(value=record[key], hashtype=k)
             continue
         h.add_meta(key=key, value=record[key])
