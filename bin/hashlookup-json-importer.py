@@ -49,12 +49,12 @@ else:
 if args.verbose:
     v = h.get_version()
     print(f"hashlookup-lib version: {v}")
-
+    
+hashes = ['md5', 'sha-1', 'sha-256', 'sha-512', 'tlsh', 'ssdeep']    
 for line in sys.stdin:
-    hashes = ['md5', 'sha-1', 'sha-256', 'sha-512', 'tlsh', 'ssdeep']
     record = json.loads(line)
     for key in record.keys():
-        if key in hashes or key.lower() in hashes:
+        if key.lower() in hashes:
             k = key.upper()
             if record[key] == "":
                 continue
@@ -63,7 +63,7 @@ for line in sys.stdin:
         h.add_meta(key=key, value=record[key])
     if args.parent is not None:
         h.add_parent(value=args.parent)
-    if args.parent is not None and args.parent_meta is not None:
+    if (args.parent and args.parent_meta) is not None:
         for pmeta in args.parent_meta:
             k, v = pmeta.split(",")
             h.add_parent_meta(value=args.parent, meta_key=k, meta_value=v)
