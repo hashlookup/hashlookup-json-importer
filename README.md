@@ -23,4 +23,4 @@ optional arguments:
 
 The input must be a NDJSON file with the standard hashlookup JSON format.
 
-`cat yourstream.json | python3 hashlookup-json-importer.py -v``
+`cat yourstream.json | python3 hashlookup-json-importer.py -v`
