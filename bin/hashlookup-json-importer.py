@@ -22,9 +22,9 @@ parser.add_argument(
 parser.add_argument(
     "-u",
     "--update",
-    help="Update hash if it already exists. default is not to update existing hashlookup record but to delete existing records and update.",
+    help="Update hash if it already exists. default is to update existing hashlookup record without deleting existing.",
     action="store_true",
-    default=False,
+    default=True,
 )
 parser.add_argument(
     "-e",
