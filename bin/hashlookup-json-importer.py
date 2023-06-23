@@ -7,10 +7,17 @@ import json
 
 BUF_SIZE = 65536
 
-parser = argparse.ArgumentParser(description="Generic NDJSON importer for hashlookup server")
-parser.add_argument("-v", "--verbose", action="store_true", help="Verbose output", default=False)
+parser = argparse.ArgumentParser(
+    description="Generic NDJSON importer for hashlookup server"
+)
 parser.add_argument(
-    "-s", "--source", help="Source name to be used as meta", default="hashlookup-json-import"
+    "-v", "--verbose", action="store_true", help="Verbose output", default=False
+)
+parser.add_argument(
+    "-s",
+    "--source",
+    help="Source name to be used as meta",
+    default="hashlookup-json-import",
 )
 parser.add_argument("-p", "--parent", help="Parent SHA-1 of the import", default=None)
 parser.add_argument(
@@ -31,7 +38,14 @@ parser.add_argument(
     "--skip-exists",
     action="store_true",
     default=False,
-    help="Skip import of existing hashlookup record",
+    help="Skip import of existing hashlookup records.",
+)
+
+parser.add_argument(
+    "--progress",
+    action="store_true",
+    default=True,
+    help="Print progress of the import.",
 )
 
 args = parser.parse_args()
@@ -49,8 +63,11 @@ else:
 if args.verbose:
     v = h.get_version()
     print(f"hashlookup-lib version: {v}")
-    
-hashes = ['md5', 'sha-1', 'sha-256', 'sha-512', 'tlsh', 'ssdeep']    
+
+hashes = ['md5', 'sha-1', 'sha-256', 'sha-512', 'tlsh', 'ssdeep']
+if args.progress:
+    progress = 0
+
 for line in sys.stdin:
     record = json.loads(line)
     for key in record.keys():
@@ -68,5 +85,8 @@ for line in sys.stdin:
             k, v = pmeta.split(",")
             h.add_parent_meta(value=args.parent, meta_key=k, meta_value=v)
     r = h.insert()
+    if args.progress:
+        progress = progress + 1
+        sys.stderr.write(f'Imported records in hashlookup: {progress}\r')
     if args.verbose:
         print(f"Imported -> {r}")
